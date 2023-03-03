@@ -148,34 +148,24 @@ with tab3:
     start_date = "2022-10-01"
     end_date = "2022-12-30"
 
-    # create a list of holiday dates
+    # Create a range of dates
+    dates = pd.date_range(start=start_date, end=end_date, freq="D")
+    np.random.seed(42)
+    sales = np.exp(np.linspace(0, 3, num=len(dates)))
 
-    # create an empty dataframe to store the sales data
-    sales_data = pd.DataFrame(columns=["ds", "y"])
-    noise = np.random.normal(0, 40, size=len(date_rng))
-    growth = np.exp(np.linspace(0, 0.4, len(date_rng)))
+    # add some random noise to the sales
+    sales = [int(s + random.uniform(-5, 5)) for s in sales]
 
-    # loop over the date range and generate sales data
-    for date in pd.date_range(start_date, end_date):
-        # calculate the number of items sold based on a random increase rate
-
-        increase_rate = np.sum(np.exp(np.linspace(0, 0.4)))
-        print(increase_rate)
-        if date.month == 11 and date.day == 24 or date.month == 12 and date.day == 25:
-            # if it's a holiday (Thanksgiving or Christmas), apply a down trend
-            increase_rate = random.uniform(0.9, 0.99)
-        num_items_sold = round(30 * increase_rate)
-        # add the data to the dataframe
-        sales_data = sales_data.append(
-            {"ds": date, "y": num_items_sold}, ignore_index=True
-        )
+    # cap the sales at a maximum of 35 and a minimum of 16
+    sales = [min(max(s, 16), 35) for s in sales]
+    sales_data = pd.DataFrame({"ds": dates, "y": sales})
 
     # create a Prophet model and fit it to the sales data
     model = Prophet(holidays=holidays)
     model.fit(sales_data)
 
     # make predictions for the next 90 days
-    future = model.make_future_dataframe(periods=90, include_history=True)
+    future = model.make_future_dataframe(periods=90, include_history=False)
     forecast = model.predict(future)
     forecast["yhat"] = round(forecast["yhat"])
     # Plot the forecast with interactive plot
