@@ -61,6 +61,9 @@ with tab1:
     # Make predictions for the next 90 days
     future = m.make_future_dataframe(periods=90, include_history=False)
     forecast = m.predict(future)
+    show = forecast[["ds", "yhat"]]
+    show.columns = ["Date", "prediction"]
+    st.dataframe(show)
 
     # Plot the forecast with interactive plot
     fig = go.Figure()
@@ -112,6 +115,9 @@ with tab2:
     # Make predictions for the next 90 days
     future = m.make_future_dataframe(periods=90, include_history=True)
     forecast = m.predict(future)
+    show = forecast[["ds", "yhat"]]
+    show.columns = ["Date", "prediction"]
+    st.dataframe(show)
 
     # Plot the forecast with interactive plot
     fig = go.Figure()
@@ -168,6 +174,9 @@ with tab3:
     future = model.make_future_dataframe(periods=90, include_history=False)
     forecast = model.predict(future)
     forecast["yhat"] = round(forecast["yhat"])
+    show = forecast[["ds", "yhat"]]
+    show.columns = ["Date", "prediction"]
+    st.dataframe(show)
     # Plot the forecast with interactive plot
     fig = go.Figure()
 
