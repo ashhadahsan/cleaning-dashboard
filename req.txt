@@ -1,0 +1,4 @@
+List of Data points 1)
+ group all this into one called Nursing facilities: Nursing homes, Long term care facilities, Hospice care facilities, skilled nursing facilities, and residential care home companies.
+  2) Medical Facilities: Hospitals, Medical clinics, Dental clinics, and any private independent practice for example orthopedics.
+   3) Academic Institutions: Daycare, elementary, mid,highschools and all the way to universities.
